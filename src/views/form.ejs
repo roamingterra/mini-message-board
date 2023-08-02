@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <title>New Message From</title>
+  </head>
+
+  <body class="d-flex flex-column align-items-center justify-content-center">
+    <h1>Create new message</h1>
+    <div class="form-container">
+      <form
+        method="POST"
+        action="/new"
+        onsubmit="submitForm(event)"
+        class="d-flex flex-column align-items-center gap-5"
+      >
+        <div class="label-input-container message">
+          <label for="text" class="fs-3">Message</label>
+          <input
+            type="text"
+            name="text"
+            id="text"
+            class="position-relative border-0 rounded p-2"
+          />
+        </div>
+        <div class="label-input-container username">
+          <label for="username" class="fs-3">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="position-relative border-0 rounded p-2"
+          />
+        </div>
+        <button
+          type="submit"
+          class="send-message btn btn-light border-0 fs-3 m-4"
+        >
+          Send Message
+        </button>
+      </form>
+    </div>
+  </body>
+  <style>
+    body {
+      background-color: #cffafe;
+      min-height: 100vh;
+      max-height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input,
+    button {
+      width: 100%;
+    }
+
+    input {
+      height: 30px;
+    }
+
+    .label-input-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .message::after {
+      content: "required";
+      position: absolute;
+      display: block;
+      top: 310px;
+      margin: 0 auto;
+      color: rgb(247, 43, 43);
+      font-size: 20px;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s ease-in 0.1s;
+    }
+
+    .message.message-error::after {
+      opacity: 1;
+    }
+
+    .username::after {
+      content: "required";
+      position: absolute;
+      display: block;
+      top: 430px;
+      margin: 0 auto;
+      color: rgb(247, 43, 43);
+      font-size: 20px;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s ease-in 0.1s;
+    }
+
+    .username.username-error::after {
+      opacity: 1;
+    }
+
+    .send-message {
+      background-color: white;
+    }
+
+    .send-message:hover {
+      background-color: #67e8f9;
+    }
+
+    .send-message:not(:disabled):not(.disabled):active {
+      background-color: white;
+    }
+
+    @media screen and (min-width: 1024px) {
+      .form-container {
+        width: 800px;
+      }
+    }
+
+    @media screen and (max-width: 1024px) {
+      .form-container {
+        width: 80%;
+      }
+    }
+  </style>
+  <script>
+    // Event listeners to check on form input
+    const textField = document.getElementById("text");
+    const usernameField = document.getElementById("username");
+
+    textField.addEventListener("input", () => {
+      if (textField.value !== "") {
+        removeFormControlErrorsStyling("text");
+      }
+    });
+
+    usernameField.addEventListener("input", () => {
+      if (usernameField.value !== "") {
+        removeFormControlErrorsStyling("username");
+      }
+    });
+
+    function removeFormControlErrorsStyling(inputFieldName) {
+      const textField = document.getElementById("text");
+      const usernameField = document.getElementById("username");
+      const messageContainer = document.querySelector(".message");
+      const usernameContainer = document.querySelector(".username");
+      if (inputFieldName === "text") {
+        textField.classList.remove("border-2");
+        textField.classList.add("border-0");
+        messageContainer.classList.remove("message-error");
+      } else if (inputFieldName === "username") {
+        usernameField.classList.remove("border-2");
+        usernameField.classList.add("border-0");
+        usernameContainer.classList.remove("username-error");
+      }
+    }
+
+    function submitForm() {
+      event.preventDefault();
+
+      // Form values
+      const text = document.getElementById("text").value;
+      const username = document.getElementById("username").value;
+
+      // Form check
+      const textField = document.getElementById("text");
+      const usernameField = document.getElementById("username");
+      const messageContainer = document.querySelector(".message");
+      const usernameContainer = document.querySelector(".username");
+
+      if (text === "" && username === "") {
+        messageContainer.classList.add("message-error");
+        usernameContainer.classList.add("username-error");
+
+        textField.classList.remove("border-0");
+        textField.classList.add("border-2");
+        textField.style.border = "solid rgb(247, 43, 43)";
+
+        usernameField.classList.remove("border-0");
+        usernameField.classList.add("border-2");
+        usernameField.style.border = "solid rgb(247, 43, 43)";
+        return;
+      } else if (text === "") {
+        messageContainer.classList.add("message-error");
+        textField.style.border = "2px solid rgb(247, 43, 43)";
+        textField.classList.remove("border-0");
+        textField.classList.add("border-2");
+        textField.style.border = "solid rgb(247, 43, 43)";
+        return;
+      } else if (username === "") {
+        usernameContainer.classList.add("username-error");
+        usernameField.classList.remove("border-0");
+        usernameField.classList.add("border-2");
+        usernameField.style.border = "solid rgb(247, 43, 43)";
+        return;
+      }
+
+      // Send data as JSON to the server
+      const data = { text, username };
+      fetch("/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (response) {
+            console.log("Message posted successfully");
+            document.getElementById("text").value = "";
+            document.getElementById("username").value = "";
+            window.location.href = "/"; // Redirect after successful post
+          } else {
+            console.error("Failed to post the message");
+          }
+        })
+        .catch((error) => {
+          console.error("An error occurred:", error);
+        });
+    }
+  </script>
+</html>

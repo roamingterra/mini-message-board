@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <title>Messages</title>
+  </head>
+  <body>
+    <section class="d-flex flex-column align-items-center m-4">
+      <h1 class="text-center">Mini Message Board</h1>
+      <button
+        class="fs-3 btn new-message-button new-message-background-color"
+        onclick="redirectToForm()"
+      >
+        create new message
+      </button>
+    </section>
+    <section
+      class="messages-section d-flex flex-column align-items-center p-4 messages-container-background-color"
+    >
+      <% messageInfo.forEach(element => { %>
+      <div
+        class="message-container d-flex flex-column bg-white mb-3 text-black p-3 rounded"
+      >
+        <div class="d-flex justify-content-between">
+          <div class="text-black fs-6"><%= element.username %></div>
+          <div class="align-self-end fs-6 date-font-color">
+            <%= element.date_added %>
+          </div>
+        </div>
+        <div class="fs-3"><%= element.text %></div>
+      </div>
+      <%}); %>
+    </section>
+    <footer
+      class="footer d-flex flex-column align-items-center p-3 text-center"
+    >
+      <div>
+        <span>Website created by</span>
+        <a href="https://github.com/roamingterra" style="text-decoration: none"
+          >Daniel Ballerini</a
+        >
+      </div>
+      <div>
+        <span>project idea from</span>
+        <a href="https://www.theodinproject.com/">© Odin Project</a>
+      </div>
+    </footer>
+    <style>
+      body {
+        min-height: 100vh;
+        max-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      h1 {
+        margin-bottom: 15px;
+      }
+
+      .messages-section {
+        flex-grow: 1;
+        overflow-y: scroll;
+      }
+
+      .message-container,
+      .new-message-button {
+        width: 80%;
+      }
+
+      .messages-container-background-color,
+      .new-message-background-color {
+        background-color: #cffafe;
+        border: 0;
+      }
+
+      .new-message-background-color {
+        color: #666666;
+      }
+
+      .new-message-background-color:hover {
+        background-color: #67e8f9;
+        color: #666666;
+      }
+
+      .new-message-background-color:not(:disabled):not(.disabled):active {
+        background-color: #cffafe;
+      }
+
+      .date-font-color {
+        color: #666666;
+      }
+
+      .footer {
+        z-index: 2;
+      }
+
+      a {
+        color: black;
+      }
+
+      @media screen and (min-width: 1024px) {
+        .message-container,
+        .new-message-button {
+          width: 750px;
+        }
+      }
+
+      @media screen and (max-width: 425px) {
+        .message-container,
+        .new-message-button {
+          width: 100%;
+        }
+      }
+    </style>
+    <script>
+      function redirectToForm() {
+        window.location.href = "/new";
+      }
+    </script>
+  </body>
+</html>
