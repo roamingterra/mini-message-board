@@ -9,6 +9,8 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
+    <!-- Force browser to refresh cached favicon -->
+    <link rel="icon" href="favicon.ico?v=1.1" />
     <title>New Message From</title>
   </head>
 
@@ -75,7 +77,10 @@
       width: 100%;
     }
 
-    .message::after {
+    /* THE REQUIRED PSEUDO ELEMENT ERROR MESSAGE WAS REMOVED, BECAUSE
+    IT IS NOT PROPERLY POSITIONED FOR ALL SCREEN DEVICES */
+
+    /* .message::after {
       content: "required";
       position: absolute;
       display: block;
@@ -90,9 +95,9 @@
 
     .message.message-error::after {
       opacity: 1;
-    }
+    } */
 
-    .username::after {
+    /* .username::after {
       content: "required";
       position: absolute;
       display: block;
@@ -103,11 +108,11 @@
       font-weight: bold;
       opacity: 0;
       transition: opacity 0.3s ease-in 0.1s;
-    }
+    } */
 
-    .username.username-error::after {
+    /* .username.username-error::after {
       opacity: 1;
-    }
+    } */
 
     .send-message {
       background-color: white;
@@ -123,7 +128,7 @@
 
     @media screen and (min-width: 1024px) {
       .form-container {
-        width: 800px;
+        width: 500px;
       }
     }
 
@@ -158,11 +163,11 @@
       if (inputFieldName === "text") {
         textField.classList.remove("border-2");
         textField.classList.add("border-0");
-        messageContainer.classList.remove("message-error");
+        // messageContainer.classList.remove("message-error");
       } else if (inputFieldName === "username") {
         usernameField.classList.remove("border-2");
         usernameField.classList.add("border-0");
-        usernameContainer.classList.remove("username-error");
+        // usernameContainer.classList.remove("username-error");
       }
     }
 
@@ -180,8 +185,8 @@
       const usernameContainer = document.querySelector(".username");
 
       if (text === "" && username === "") {
-        messageContainer.classList.add("message-error");
-        usernameContainer.classList.add("username-error");
+        // messageContainer.classList.add("message-error");
+        // usernameContainer.classList.add("username-error");
 
         textField.classList.remove("border-0");
         textField.classList.add("border-2");
@@ -192,14 +197,14 @@
         usernameField.style.border = "solid rgb(247, 43, 43)";
         return;
       } else if (text === "") {
-        messageContainer.classList.add("message-error");
+        // messageContainer.classList.add("message-error");
         textField.style.border = "2px solid rgb(247, 43, 43)";
         textField.classList.remove("border-0");
         textField.classList.add("border-2");
         textField.style.border = "solid rgb(247, 43, 43)";
         return;
       } else if (username === "") {
-        usernameContainer.classList.add("username-error");
+        // usernameContainer.classList.add("username-error");
         usernameField.classList.remove("border-0");
         usernameField.classList.add("border-2");
         usernameField.style.border = "solid rgb(247, 43, 43)";
