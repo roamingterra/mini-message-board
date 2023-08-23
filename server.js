@@ -16,6 +16,6 @@ app.use(express.json()); // middleware to allow post and get json from endpoints
 
 app.use("/", messageRoutes); // The route that leads to our message routes
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`app listening on port ${port}`);
 });

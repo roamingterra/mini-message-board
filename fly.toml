@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for misty-water-9489 on 2023-08-03T13:32:56-04:00
+# fly.toml app configuration file generated for mini-message-board-roamingterra on 2023-08-09T13:33:47-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "misty-water-9489"
+app = "mini-message-board-roamingterra"
 primary_region = "yul"
 
 [build]
@@ -11,11 +11,7 @@ primary_region = "yul"
 [http_service]
   internal_port = 3000
   force_https = true
-  auto_stop_machines = false
+  auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
   processes = ["app"]
-
-[env]
-  PORT = "3000"
-  DATABASE_URL = "https://misty-water-9489-db.fly.dev"

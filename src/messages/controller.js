@@ -3,11 +3,28 @@ const pool = require("../../db");
 const queries = require("./queries");
 const date = require("date-and-time");
 
-const getMessages = (req, res) => {
-  pool.query(queries.getMessages, (error, results) => {
-    if (error) throw error;
+// global error handler at the top of your controller.js file
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Promise Rejection:", reason);
+});
 
-    const modifiedData = results.rows.map((row) => {
+pool.on("error", (err, client) => {
+  console.error("Unexpected error on idle client", err);
+});
+
+const getMessages = async (req, res) => {
+  try {
+    const { rows: results } = await pool.query(queries.getMessages);
+    console.log("Query Results:", results);
+
+    if (!results.length) {
+      // No data returned from the query
+      console.log("no messages found");
+      res.status(200).send("No messages found.");
+      return;
+    }
+
+    const modifiedData = results.map((row) => {
       // Format date of message based on time passed
       let modifiedDate = row.date_added;
       const currentDate = new Date();
@@ -33,7 +50,10 @@ const getMessages = (req, res) => {
     });
 
     res.render("messages", { messageInfo: modifiedData });
-  });
+  } catch (error) {
+    console.error("Error in getMessages:", error);
+    res.status(500).send("Error fetching messages.");
+  }
 };
 
 const getNewMessageForm = (req, res) => {
